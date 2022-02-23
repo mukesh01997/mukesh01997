@@ -67,7 +67,7 @@ class UsersController extends Controller
             $json       = file_get_contents($path . $newFile);
             $jsonData   = json_decode($json);
             $oldId      = count($jsonData);
-            $data['id'] = $oldId + 1;;
+            $data['id'] = $oldId + 1;
             array_push($jsonData, $data);
             $req = json_encode($jsonData);
         } else {
@@ -129,10 +129,10 @@ class UsersController extends Controller
         if (File::exists($path . $newFile)) {
             $json       = file_get_contents($path . $newFile);
             $jsonData   = json_decode($json);
-            $i = 0;
+            $isExists = 0;
             foreach ($jsonData as $editData) {
                 if ($editData->id == $id) {
-                    $i = 1;
+                    $isExists = 1;
                     foreach ($request->all() as $key => $value) {
                         $editData->$key = $value;
                     }
@@ -141,7 +141,7 @@ class UsersController extends Controller
 
             $req = json_encode($jsonData);
             $response = File::put($path . $newFile, $req);
-            if ($i == 1) {
+            if ($isExists == 1) {
                 return response()->json([
                     'statusCode'    => 200,
                     'status'        => 'success',
